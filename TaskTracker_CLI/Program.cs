@@ -26,6 +26,10 @@
             */
 
 
+            TaskTracker taskTracker = new();
+            taskTracker.Run();
+
+
             Console.ReadLine();
         }
     }
