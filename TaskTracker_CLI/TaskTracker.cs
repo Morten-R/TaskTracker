@@ -10,7 +10,9 @@ namespace TaskTracker_CLI
     {
         public void Run()
         {
-            Console.WriteLine("Hello, testing!");
+            InfoMessage message = new();
+            
+            Console.WriteLine(message.Message());
         }
     }
 }

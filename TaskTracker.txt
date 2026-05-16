@@ -3,6 +3,8 @@ Classes			Funksjon
 Program			Kjøre programmet
 InfoMessage		Litt informasjon om hva de forskjellige valgene gir
 TaskTracker		Logikken for TaskTrackeren
+UserInput		Klasse for å håndtere inputs fra brukeren
+Validator		Passe på at inputen fra brukeren er riktig
 Menu			Liste over hvilke valgmuligheter brukeren har
 Add			Legge til en oppgave
 Update			Oppdatere en oppgave
