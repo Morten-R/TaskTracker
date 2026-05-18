@@ -10,8 +10,15 @@ namespace TaskTracker_CLI
     {
         public void Run()
         {
+            Start();
+
+            Menu menu = new();
+            int option = menu.GetOption();
+        }
+
+        public void Start()
+        {
             InfoMessage message = new();
-            
             Console.WriteLine(message.Message());
         }
     }

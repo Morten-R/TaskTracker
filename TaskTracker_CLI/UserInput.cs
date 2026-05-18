@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TaskTracker_CLI
+{
+    public class UserInput
+    {
+        public int Input(string message)
+        {
+            Console.WriteLine(message);
+            
+            while (true)
+            {
+                if (Validator.InputValidator(Console.ReadLine(), 1, 7, out int result))
+                    return result;
+
+                Console.WriteLine("\nPlease enter a number 1 - 7");
+            }
+        }
+    }
+}

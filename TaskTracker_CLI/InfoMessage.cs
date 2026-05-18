@@ -13,7 +13,7 @@ namespace TaskTracker_CLI
             return "Welcome to TaskTracker!\n" +
                    "Here you can add a task to do, update it or delete it.\n" +
                    "You can mark a task as in-progress or done!\n" +
-                   "What do you want to do?:\n" +
+                   "Here are the options you can choose to do:\n" +
                    "1. Add a task\n" +
                    "2. Update a task\n" +
                    "3. Delete a task\n" +
