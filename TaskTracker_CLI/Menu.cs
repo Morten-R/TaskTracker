@@ -17,11 +17,11 @@ namespace TaskTracker_CLI
             switch (option)
             {
                 case 1:
-                    Console.WriteLine("You want to add a task!");
+                    Console.WriteLine("You chose to add a task!");
                     break;
 
                 case 2:
-                    Console.WriteLine("You want to update a task!");
+                    Console.WriteLine("You chose to update an existing task!");
                     break;
 
                 default:

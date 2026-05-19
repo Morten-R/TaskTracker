@@ -10,6 +10,8 @@ Add			Legge til en oppgave
 Update			Oppdatere en oppgave
 Delete			Slette en oppgave
 MarkTask		Markere en oppgave som uferdig eller ferdig
-AllTasksList		En liste hvor man kan legge til alle oppgavene
-DoneTasksList		En liste hvor alle ferdige oppgaver blir lagt til
-InProgressTasksList	En liste hvor alle uferdige oppgaver blir lagt til
+Lists			Class til listene
+AllTasksList		En liste hvor man kan legge til alle oppgavene		?
+DoneTasksList		En liste hvor alle ferdige oppgaver blir lagt til	?
+InProgressTasksList	En liste hvor alle uferdige oppgaver blir lagt til	?
+ToDoItem		Properties som alle oppgaver skal ha
