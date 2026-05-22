@@ -8,6 +8,11 @@ namespace TaskTracker_CLI
 {
     public class Lists
     {
-        List<ToDoItem> toDoList = [];
+        public List<ToDoItem> toDoList = [];
+
+        public void AddItemToList(ToDoItem toDoItem)
+        {
+            toDoList.Add(toDoItem);
+        }
     }
 }

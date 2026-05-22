@@ -14,6 +14,12 @@ namespace TaskTracker_CLI
 
             Menu menu = new();
             int option = menu.GetOption();
+
+            Add add = new();
+            add.AddItem();
+
+            ShowAllTasks showTasks = new();
+            showTasks.ShowTasks();
         }
 
         public void Start()

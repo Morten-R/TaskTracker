@@ -12,7 +12,7 @@ namespace TaskTracker_CLI
         {
             UserInput input = new();
 
-            int option = input.Input("\nPlease choose the option you want to do:");
+            int option = input.Input("\nPlease choose what you want to do:");
 
             switch (option)
             {
@@ -22,6 +22,26 @@ namespace TaskTracker_CLI
 
                 case 2:
                     Console.WriteLine("You chose to update an existing task!");
+                    break;
+
+                case 3:
+                    Console.WriteLine("You chose to delete a task!");
+                    break;
+
+                case 4:
+                    Console.WriteLine("You chose to mark a task!");
+                    break;
+
+                case 5:
+                    Console.WriteLine("You want to show all tasks!");
+                    break;
+
+                case 6:
+                    Console.WriteLine("You want to show all tasks that's done!");
+                    break;
+
+                case 7:
+                    Console.WriteLine("You want to show all tasks that's in-progress!");
                     break;
 
                 default:
