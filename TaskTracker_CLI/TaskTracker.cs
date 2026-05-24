@@ -11,24 +11,7 @@ namespace TaskTracker_CLI
         public void Run()
         {
             Start();
-
-            bool keepRunning = true;
-
-            while (keepRunning)
-            {
-                Menu menu = new();
-                int option = menu.GetOption();
-
-                if (option == 1)
-                    AddItems();
-
-                else if (option == 5)
-                    ShowingAllTasks();
-
-                else
-                    keepRunning = false;
-            }
-            
+            GetUserOption();            
         }
 
         public void Start()
@@ -37,17 +20,12 @@ namespace TaskTracker_CLI
             Console.WriteLine(message.Message());
         }
 
-        public void AddItems()
+        public void GetUserOption()
         {
-            Add add = new();
-            add.AddItem();
+            UserOptions options = new();
+            options.GetUserInput();
         }
 
-        public void ShowingAllTasks()
-        {
-            ShowAllTasks showTasks = new();
-            showTasks.ShowTasks();
-        }
 
         public int GetOptionFromOptions(Options option)
         {
