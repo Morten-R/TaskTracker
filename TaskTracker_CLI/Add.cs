@@ -8,10 +8,10 @@ namespace TaskTracker_CLI
 {
     public class Add
     {
-        public Lists list = new();
+        Lists list = new();
         public string AddItem()
         {
-            Console.WriteLine("Add a task: ");
+            Console.WriteLine("Write the name of the task you want to add: ");
             string? description = Console.ReadLine();
 
             list.AddItemToList(new ToDoItem
