@@ -14,10 +14,10 @@ namespace TaskTracker_CLI
             
             while (true)
             {
-                if (Validator.InputValidator(Console.ReadLine(), 1, 7, out int result))
+                if (Validator.InputValidator(Console.ReadLine(), 1, 8, out int result))
                     return result;
 
-                Console.WriteLine("\nPlease enter a number 1 - 7");
+                Console.WriteLine("\nPlease enter a number 1 - 8");
             }
         }
     }

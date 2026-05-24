@@ -10,36 +10,23 @@ namespace TaskTracker_CLI
     {
         public void Run()
         {
-            Start();
+            Console.WriteLine("Welcome to the TaskTracker!\n" +
+                              "Please enter what you want to do:\n" +
+                              "1. List all tasks\n" +
+                              "2. Add a task\n" +
+                              "3. Update a task\n" +
+                              "4. Remove a task\n" +
+                              "5. Mark task as done\n" +
+                              "6. List tasks that's done\n" +
+                              "7. List tasks that's in-progress\n" +
+                              "8. Exit\n"); 
             GetUserOption();            
-        }
-
-        public void Start()
-        {
-            InfoMessage message = new();
-            Console.WriteLine(message.Message());
         }
 
         public void GetUserOption()
         {
             UserOptions options = new();
             options.GetUserInput();
-        }
-
-
-        public int GetOptionFromOptions(Options option)
-        {
-            return option switch
-            {
-                Options.Add => 1,
-                Options.Update => 2,
-                Options.Delete => 3,
-                Options.Mark => 4,
-                Options.ShowAllTasks => 5,
-                Options.ShowDoneTasks => 6,
-                Options.ShowInProgressTasks => 7,
-                _ => 0
-            };
         }
     }
 }
