@@ -34,7 +34,7 @@ namespace TaskTracker_CLI
                             
                             foreach (var task in toDoList)
                             {
-                                Console.WriteLine($"{task.Id}: {task.Description}, Status: {task.Status}, Created: {task.CreatedAt}, Last updated: {task.UpdatedAt}");
+                                Console.WriteLine($"{task.Id}: {task.Description}\t\tStatus: {task.Status}\tCreated: {task.CreatedAt}\tLast updated: {task.UpdatedAt}");
                             }
                         }
                         break;
@@ -58,7 +58,7 @@ namespace TaskTracker_CLI
                             CreatedAt = DateTime.Now,
                             UpdatedAt = DateTime.Now
                         });
-                        Console.WriteLine("Task added succesfully!");
+                        Console.WriteLine($"Task added succesfully!");
                         break;
 
                     case 3:
