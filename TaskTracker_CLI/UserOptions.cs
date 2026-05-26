@@ -11,7 +11,7 @@ namespace TaskTracker_CLI
         public bool isValid { get; set; } = true;
         public int Choice { get; set; }
 
-        private readonly List<ToDoItem> toDoList = [];
+        public readonly List<ToDoItem> toDoList = [];
 
         public void GetUserInput()
         {
@@ -59,6 +59,10 @@ namespace TaskTracker_CLI
                             UpdatedAt = DateTime.Now
                         });
                         Console.WriteLine($"Task added succesfully!");
+
+                        TaskStorage taskStorage = new();
+                        taskStorage.SaveFile(toDoList);
+
                         break;
 
                     case 3:
