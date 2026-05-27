@@ -19,7 +19,7 @@ namespace TaskTracker_CLI
                               "5. Mark task as done\n" +
                               "6. List tasks that's done\n" +
                               "7. List tasks that's in-progress\n" +
-                              "8. Exit\n"); 
+                              "8. Exit\n");
             GetUserOption();            
         }
 
@@ -30,3 +30,4 @@ namespace TaskTracker_CLI
         }
     }
 }
+

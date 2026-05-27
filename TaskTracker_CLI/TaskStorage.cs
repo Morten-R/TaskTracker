@@ -11,8 +11,29 @@ namespace TaskTracker_CLI
     {
         public void SaveFile(List<ToDoItem> toDoList)
         {
-            string jsonString = JsonSerializer.Serialize(toDoList);
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true
+            };
+
+            string jsonString = JsonSerializer.Serialize(toDoList, options);
             File.WriteAllText("tasks.json", jsonString);
+        }
+
+        public List<ToDoItem> LoadFile()
+        {
+            string jsonString = File.ReadAllText("tasks.json");
+            var desString = JsonSerializer.Deserialize<List<ToDoItem>>(jsonString);
+
+            if (desString != null)
+            {
+                return desString;
+            }
+
+            else
+            {
+                return new List<ToDoItem>();
+            }
         }
     }
 }

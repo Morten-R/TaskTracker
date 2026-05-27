@@ -20,5 +20,18 @@ namespace TaskTracker_CLI
                 Console.WriteLine("\nPlease enter a number 1 - 8");
             }
         }
+
+        public int InputTaskID(string message)
+        {
+            Console.WriteLine(message);
+
+            while (true)
+            {
+                if (Validator.InputTaskIdValidator(Console.ReadLine(), out int result))
+                    return result;
+
+                Console.WriteLine("\nPlease enter task ID you want to update.");
+            }
+        }
     }
 }

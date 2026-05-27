@@ -11,7 +11,8 @@ namespace TaskTracker_CLI
         public bool isValid { get; set; } = true;
         public int Choice { get; set; }
 
-        public readonly List<ToDoItem> toDoList = [];
+
+        public List<ToDoItem> toDoList = GetLoadFile();
 
         public void GetUserInput()
         {
@@ -67,8 +68,34 @@ namespace TaskTracker_CLI
 
                     case 3:
                         // update a task
-                        Console.WriteLine("Coming soon!");
-                        break;
+                        int id = userInput.InputTaskID("Enter task ID for task you want to update: ");
+
+                        bool updTaskIdFound = false;
+                        for (int i = 0; i < toDoList.Count; i++)
+                        {
+                            if (id == toDoList[i].Id)
+                            {
+                                Console.WriteLine("Please enter new task: ");
+                                string? newTask = Console.ReadLine();
+                                toDoList[i].Description = newTask;
+                                toDoList[i].UpdatedAt = DateTime.Now;
+
+                                Console.WriteLine("Task succesfully updated!");
+                                updTaskIdFound = true;
+
+                                TaskStorage taskStorage1 = new();
+                                taskStorage1.SaveFile(toDoList);
+
+                                break;
+                            }
+                            
+                        }
+
+                        if (!updTaskIdFound)
+                        {
+                            Console.WriteLine("Task does not exist!");
+                        }
+                            break;
 
                     case 4:
                         // remove a task
@@ -84,8 +111,13 @@ namespace TaskTracker_CLI
                                 toDoList.Remove(toDoList[i]);
                                 Console.WriteLine("Task succesfully removed!");
                                 found = true;
+
+                                TaskStorage taskStorage1 = new();
+                                taskStorage1.SaveFile(toDoList);
+
                                 break;
-                            }                           
+                            }
+                            
                         }
 
                         if (!found)
@@ -115,6 +147,13 @@ namespace TaskTracker_CLI
                         break;
                 }
             }
+        }
+        public static List<ToDoItem> GetLoadFile()
+        {
+            TaskStorage file = new();
+            var loadedTasks = file.LoadFile();
+
+            return loadedTasks;
         }
     }
 }

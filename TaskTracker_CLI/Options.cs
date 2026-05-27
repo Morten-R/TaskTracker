@@ -14,6 +14,7 @@ namespace TaskTracker_CLI
         Mark = 4,
         ShowAllTasks = 5,
         ShowDoneTasks = 6,
-        ShowInProgressTasks = 7
+        ShowInProgressTasks = 7,
+        Exit = 8
     }
 }
