@@ -68,7 +68,7 @@ namespace TaskTracker_CLI
 
                     case 3:
                         // update a task
-                        int id = userInput.InputTaskID("Enter task ID for task you want to update: ");
+                        int id = userInput.InputTaskID("Enter task ID for the task you want to update: ");
 
                         bool updTaskIdFound = false;
                         for (int i = 0; i < toDoList.Count; i++)
@@ -99,8 +99,7 @@ namespace TaskTracker_CLI
 
                     case 4:
                         // remove a task
-                        Console.WriteLine("Enter task ID to remove: ");
-                        int taskID = Convert.ToInt32(Console.ReadLine());
+                        int taskID = userInput.InputTaskID("Enter the ID for the task you want to remove: ");
 
                         bool found = false;
 
@@ -117,7 +116,6 @@ namespace TaskTracker_CLI
 
                                 break;
                             }
-                            
                         }
 
                         if (!found)
@@ -127,7 +125,8 @@ namespace TaskTracker_CLI
                         break;
 
                     case 5:
-                        Console.WriteLine("Coming soon!");
+                        // mark task as done or in-progress
+                        int markID = userInput.InputTaskID("Enter the task ID for the task you want to change status: ");
                             break;
 
                     case 6:
