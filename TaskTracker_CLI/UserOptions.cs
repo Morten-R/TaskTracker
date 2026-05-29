@@ -126,7 +126,53 @@ namespace TaskTracker_CLI
 
                     case 5:
                         // mark task as done or in-progress
-                        int markID = userInput.InputTaskID("Enter the task ID for the task you want to change status: ");
+                        int markID = userInput.InputTaskID("Enter the task ID for the task's status you want to change: ");
+
+                        bool markIdFound = false;
+
+                        for (int i = 0; i < toDoList.Count; i++)
+                        {
+                            if (markID == toDoList[i].Id)
+                            {
+                                TaskStorage taskStorage1 = new();
+
+                                Console.WriteLine("Please enter what status you want to give the task: ");
+                                string? test = Console.ReadLine();
+                                if (test == "ToDo")
+                                {
+                                    toDoList[i].Status = TaskStatus.ToDo;
+                                    Console.WriteLine("Status succesfully changed!");
+                                    taskStorage1.SaveFile(toDoList);
+                                    markIdFound = true;
+                                }
+                                else if (test == "InProgress")
+                                {
+                                    toDoList[i].Status = TaskStatus.InProgress;
+                                    Console.WriteLine("Status succesfully changed!");
+                                    taskStorage1.SaveFile(toDoList);
+                                    markIdFound = true;
+                                }
+                                else if (test == "Done")
+                                {
+                                    toDoList[i].Status = TaskStatus.Done;
+                                    Console.WriteLine("Status succesfully changed!");
+                                    taskStorage1.SaveFile(toDoList);
+                                    markIdFound = true;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Please enter \"ToDo\", \"InProgress\" or \"Done\".");
+                                }
+                                break;
+                            }
+                        }
+
+                        if (!markIdFound)
+                        {
+                            Console.WriteLine("Task does not exist!");
+                        }
+
+
                             break;
 
                     case 6:

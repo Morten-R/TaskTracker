@@ -30,7 +30,7 @@ namespace TaskTracker_CLI
                 if (Validator.InputTaskIdValidator(Console.ReadLine(), out int result))
                     return result;
 
-                Console.WriteLine("\nPlease enter task ID you want to update.");
+                Console.WriteLine("\nPlease enter a valid task ID.");
             }
         }
     }
