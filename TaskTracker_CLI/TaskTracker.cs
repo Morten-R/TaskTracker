@@ -16,7 +16,7 @@ namespace TaskTracker_CLI
                               "2. Add a task\n" +
                               "3. Update a task\n" +
                               "4. Remove a task\n" +
-                              "5. Mark task as done\n" +
+                              "5. Mark task (\"Done\", \"InProgress\" or \"Done\")\n" +
                               "6. List tasks that's done\n" +
                               "7. List tasks that's in-progress\n" +
                               "8. Exit\n");

@@ -70,7 +70,6 @@ namespace TaskTracker_CLI
                         // update a task
                         int id = userInput.InputTaskID("Enter task ID for the task you want to update: ");
 
-                        bool updTaskIdFound = false;
                         for (int i = 0; i < toDoList.Count; i++)
                         {
                             if (id == toDoList[i].Id)
@@ -81,7 +80,6 @@ namespace TaskTracker_CLI
                                 toDoList[i].UpdatedAt = DateTime.Now;
 
                                 Console.WriteLine("Task succesfully updated!");
-                                updTaskIdFound = true;
 
                                 TaskStorage taskStorage1 = new();
                                 taskStorage1.SaveFile(toDoList);
@@ -90,18 +88,11 @@ namespace TaskTracker_CLI
                             }
                             
                         }
-
-                        if (!updTaskIdFound)
-                        {
-                            Console.WriteLine("Task does not exist!");
-                        }
                             break;
 
                     case 4:
                         // remove a task
                         int taskID = userInput.InputTaskID("Enter the ID for the task you want to remove: ");
-
-                        bool found = false;
 
                         for (int i = 0; i < toDoList.Count; i++)
                         {
@@ -109,7 +100,6 @@ namespace TaskTracker_CLI
                             {
                                 toDoList.Remove(toDoList[i]);
                                 Console.WriteLine("Task succesfully removed!");
-                                found = true;
 
                                 TaskStorage taskStorage1 = new();
                                 taskStorage1.SaveFile(toDoList);
@@ -117,62 +107,47 @@ namespace TaskTracker_CLI
                                 break;
                             }
                         }
-
-                        if (!found)
-                        {
-                            Console.WriteLine("Task does not exist!");
-                        }
                         break;
 
                     case 5:
                         // mark task as done or in-progress
-                        int markID = userInput.InputTaskID("Enter the task ID for the task's status you want to change: ");
-
-                        bool markIdFound = false;
+                        int markID = userInput.InputTaskID("\nEnter the task ID for the task's status you want to change: ");
 
                         for (int i = 0; i < toDoList.Count; i++)
                         {
                             if (markID == toDoList[i].Id)
                             {
-                                TaskStorage taskStorage1 = new();
+                                Console.WriteLine("\nPlease enter what status you want to give the task: ");
 
-                                Console.WriteLine("Please enter what status you want to give the task: ");
-                                string? test = Console.ReadLine();
-                                if (test == "ToDo")
+                                bool isStatusValid = true;
+                                while (isStatusValid)
                                 {
-                                    toDoList[i].Status = TaskStatus.ToDo;
-                                    Console.WriteLine("Status succesfully changed!");
+                                    string? statusInput = Console.ReadLine();
+                                    if (statusInput == "ToDo")
+                                        toDoList[i].Status = TaskStatus.ToDo;
+
+                                    else if (statusInput == "InProgress")
+                                        toDoList[i].Status = TaskStatus.InProgress;
+
+                                    else if (statusInput == "Done")
+                                        toDoList[i].Status = TaskStatus.Done;
+
+                                    else
+                                    {
+                                        Console.WriteLine("\nPlease enter \"ToDo\", \"InProgress\" or \"Done\".");
+                                        continue;
+                                    }
+
+                                    TaskStorage taskStorage1 = new();
+
+                                    Console.WriteLine("\nStatus succesfully changed!");
+                                    toDoList[i].UpdatedAt = DateTime.Now;
                                     taskStorage1.SaveFile(toDoList);
-                                    markIdFound = true;
-                                }
-                                else if (test == "InProgress")
-                                {
-                                    toDoList[i].Status = TaskStatus.InProgress;
-                                    Console.WriteLine("Status succesfully changed!");
-                                    taskStorage1.SaveFile(toDoList);
-                                    markIdFound = true;
-                                }
-                                else if (test == "Done")
-                                {
-                                    toDoList[i].Status = TaskStatus.Done;
-                                    Console.WriteLine("Status succesfully changed!");
-                                    taskStorage1.SaveFile(toDoList);
-                                    markIdFound = true;
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Please enter \"ToDo\", \"InProgress\" or \"Done\".");
+                                    isStatusValid = false;
                                 }
                                 break;
                             }
                         }
-
-                        if (!markIdFound)
-                        {
-                            Console.WriteLine("Task does not exist!");
-                        }
-
-
                             break;
 
                     case 6:
