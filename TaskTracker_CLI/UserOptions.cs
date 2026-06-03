@@ -32,6 +32,7 @@ namespace TaskTracker_CLI
 
                         else
                         {
+                            
                             Console.WriteLine("Showing all tasks:\n");
                             
                             foreach (var task in toDoList)
@@ -184,14 +185,21 @@ namespace TaskTracker_CLI
                         break;
 
                     case 6:
-                        Console.WriteLine("Coming soon!");
+                        Console.WriteLine("Showing tasks that's done:");
+                        FilterByStatus(TaskStatus.Done);
                         break;
 
                     case 7:
-                        Console.WriteLine("Coming soon!");
+                        Console.WriteLine("Showing tasks that's in-progress:");
+                        FilterByStatus(TaskStatus.InProgress);
                         break;
 
                     case 8:
+                        Console.WriteLine("Showing tasks ToDo:");
+                        FilterByStatus(TaskStatus.ToDo);
+                        break;
+
+                    case 9:
                         isValid = false;
                         break;
                         
@@ -201,12 +209,24 @@ namespace TaskTracker_CLI
                 }
             }
         }
+
         public static List<ToDoItem> GetLoadFile()
         {
             TaskStorage file = new();
             var loadedTasks = file.LoadFile();
 
             return loadedTasks;
+        }
+
+        public void FilterByStatus(TaskStatus status)
+        {
+            var filteredTasks = toDoList
+                .Where(task => task.Status == status);
+
+            foreach (var task in filteredTasks)
+            {
+                Console.WriteLine($"ID: {task.Id}\t Name: {task.Description}\t\t Status: {task.Status}\t\t Created: {task.CreatedAt}\t Last updated: {task.UpdatedAt}");
+            }
         }
     }
 }

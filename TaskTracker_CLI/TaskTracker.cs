@@ -19,7 +19,8 @@ namespace TaskTracker_CLI
                               "5. Mark task (\"Done\", \"InProgress\" or \"Done\")\n" +
                               "6. List tasks that's done\n" +
                               "7. List tasks that's in-progress\n" +
-                              "8. Exit\n");
+                              "8. List tasks ToDo\n" + 
+                              "9. Exit\n");
             GetUserOption();            
         }
 

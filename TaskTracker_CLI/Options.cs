@@ -8,13 +8,14 @@ namespace TaskTracker_CLI
 {
     public enum Options
     {
-        Add = 1,
-        Update = 2,
-        Delete = 3,
-        Mark = 4,
-        ShowAllTasks = 5,
+        ListAllTasks = 1,
+        Add = 2,
+        Update = 3,
+        Remove = 4,
+        Mark = 5,
         ShowDoneTasks = 6,
         ShowInProgressTasks = 7,
-        Exit = 8
+        ShowToDoTasks = 8,
+        Exit = 9
     }
 }
