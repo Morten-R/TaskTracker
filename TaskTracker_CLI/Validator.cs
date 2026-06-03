@@ -18,14 +18,14 @@ namespace TaskTracker_CLI
             return int.TryParse(input, out result) && result >= min && result <= max;
         }
 
-        public static bool InputTaskIdValidator(string? input, int min, int max, out int result)
+        public static bool InputTaskIdValidator(string? input, out int result)
         {
             result = -1;
 
             if (string.IsNullOrWhiteSpace(input))
                 return false;
 
-            return int.TryParse(input, out result) && result >= min && result <= max;
+            return int.TryParse(input, out result) && result > 0;
         }
     }
 }

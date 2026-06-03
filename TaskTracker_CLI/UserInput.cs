@@ -23,16 +23,14 @@ namespace TaskTracker_CLI
 
         public int InputTaskID(string message)
         {
-            UserOptions options = new();
-
             Console.WriteLine(message);
 
             while (true)
             {
-                if (Validator.InputTaskIdValidator(Console.ReadLine(), 1, options.toDoList.Count(), out int result))
+                if (Validator.InputTaskIdValidator(Console.ReadLine(), out int result))
                     return result;
 
-                Console.WriteLine("\nTask does not exist! Please enter a valid task ID.");
+                Console.WriteLine("\nPlease enter a valid task ID.");
             }
         }
     }

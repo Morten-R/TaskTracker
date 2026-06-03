@@ -41,8 +41,8 @@
              * 1. Add JSON save/load                (done)
              * 2. Remove by ID                      (done)
              * 3. Update task                       (done)
-             * 4. Mark done/in progress             (in-progress)
-             * 5. Filter tasks by status            (to-do)
+             * 4. Mark done/in progress             (done)
+             * 5. Filter tasks by status            (InProgress)
              * 6. Convert to real CLI args later    (to-do)
              *
              *That progression makes sense.

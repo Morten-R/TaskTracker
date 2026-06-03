@@ -17,6 +17,7 @@ namespace TaskTracker_CLI
         public void GetUserInput()
         {
             UserInput userInput = new();
+            TaskStorage taskStorage = new();
 
             while (isValid)
             {
@@ -61,94 +62,126 @@ namespace TaskTracker_CLI
                         });
                         Console.WriteLine($"Task added succesfully!");
 
-                        TaskStorage taskStorage = new();
                         taskStorage.SaveFile(toDoList);
 
                         break;
 
                     case 3:
                         // update a task
-                        int id = userInput.InputTaskID("Enter task ID for the task you want to update: ");
-
-                        for (int i = 0; i < toDoList.Count; i++)
+                        bool isUpdateValid = true;
+                        while (isUpdateValid)
                         {
-                            if (id == toDoList[i].Id)
+                            int id = userInput.InputTaskID("\nEnter task ID for the task you want to update: ");
+
+                            bool updateTaskIdFound = false;
+
+                            for (int i = 0; i < toDoList.Count; i++)
                             {
-                                Console.WriteLine("Please enter new task: ");
-                                string? newTask = Console.ReadLine();
-                                toDoList[i].Description = newTask;
-                                toDoList[i].UpdatedAt = DateTime.Now;
+                                if (id == toDoList[i].Id)
+                                {
+                                    Console.WriteLine("Please enter new task: ");
+                                    string? newTask = Console.ReadLine();
+                                    toDoList[i].Description = newTask;
+                                    toDoList[i].UpdatedAt = DateTime.Now;
+                                    updateTaskIdFound = true;
 
-                                Console.WriteLine("Task succesfully updated!");
+                                    Console.WriteLine("Task succesfully updated!");
 
-                                TaskStorage taskStorage1 = new();
-                                taskStorage1.SaveFile(toDoList);
+                                    taskStorage.SaveFile(toDoList);
 
-                                break;
+                                    isUpdateValid = false;
+
+                                    break;
+                                }                            
                             }
-                            
+
+                            if (!updateTaskIdFound)
+                                Console.WriteLine("Task ID does not exist!");
                         }
-                            break;
+                        break;
 
                     case 4:
                         // remove a task
-                        int taskID = userInput.InputTaskID("Enter the ID for the task you want to remove: ");
-
-                        for (int i = 0; i < toDoList.Count; i++)
+                        bool isRemoveValid = true;
+                        while (isRemoveValid)
                         {
-                            if (taskID == toDoList[i].Id)
+                            int taskID = userInput.InputTaskID("\nEnter the ID for the task you want to remove: ");
+
+                            bool removeTaskIdFound = false;
+
+                            for (int i = 0; i < toDoList.Count; i++)
                             {
-                                toDoList.Remove(toDoList[i]);
-                                Console.WriteLine("Task succesfully removed!");
+                                if (taskID == toDoList[i].Id)
+                                {
+                                    toDoList.Remove(toDoList[i]);
+                                    Console.WriteLine("Task succesfully removed!");
+                                    removeTaskIdFound = true;
 
-                                TaskStorage taskStorage1 = new();
-                                taskStorage1.SaveFile(toDoList);
+                                    taskStorage.SaveFile(toDoList);
 
-                                break;
+                                    isRemoveValid = false;
+
+                                    break;
+                                }
                             }
+
+                            if (!removeTaskIdFound)
+                                Console.WriteLine("Task ID does not exist!");
                         }
                         break;
 
                     case 5:
                         // mark task as done or in-progress
-                        int markID = userInput.InputTaskID("\nEnter the task ID for the task's status you want to change: ");
-
-                        for (int i = 0; i < toDoList.Count; i++)
+                        bool isMarkValid = true;
+                        while (isMarkValid)
                         {
-                            if (markID == toDoList[i].Id)
+                            int markID = userInput.InputTaskID("\nEnter the task ID for the task's status you want to change: ");
+
+                            bool markTaskIdFound = false;
+
+                            for (int i = 0; i < toDoList.Count; i++)
                             {
-                                Console.WriteLine("\nPlease enter what status you want to give the task: ");
-
-                                bool isStatusValid = true;
-                                while (isStatusValid)
+                                if (markID == toDoList[i].Id)
                                 {
-                                    string? statusInput = Console.ReadLine();
-                                    if (statusInput == "ToDo")
-                                        toDoList[i].Status = TaskStatus.ToDo;
+                                    Console.WriteLine("\nPlease enter what status you want to give the task: ");
 
-                                    else if (statusInput == "InProgress")
-                                        toDoList[i].Status = TaskStatus.InProgress;
-
-                                    else if (statusInput == "Done")
-                                        toDoList[i].Status = TaskStatus.Done;
-
-                                    else
+                                    bool isStatusValid = true;
+                                    while (isStatusValid)
                                     {
-                                        Console.WriteLine("\nPlease enter \"ToDo\", \"InProgress\" or \"Done\".");
-                                        continue;
+                                        string? statusInput = Console.ReadLine();
+                                        if (statusInput == "ToDo")
+                                            toDoList[i].Status = TaskStatus.ToDo;
+
+                                        else if (statusInput == "InProgress")
+                                            toDoList[i].Status = TaskStatus.InProgress;
+
+                                        else if (statusInput == "Done")
+                                            toDoList[i].Status = TaskStatus.Done;
+
+                                        else
+                                        {
+                                            Console.WriteLine("\nPlease enter \"ToDo\", \"InProgress\" or \"Done\".");
+                                            continue;
+                                        }
+
+                                        Console.WriteLine("\nStatus succesfully changed!");
+                                        markTaskIdFound = true;
+
+                                        toDoList[i].UpdatedAt = DateTime.Now;
+                                        taskStorage.SaveFile(toDoList);
+                                        isStatusValid = false;
+
+                                        isMarkValid = false;
                                     }
-
-                                    TaskStorage taskStorage1 = new();
-
-                                    Console.WriteLine("\nStatus succesfully changed!");
-                                    toDoList[i].UpdatedAt = DateTime.Now;
-                                    taskStorage1.SaveFile(toDoList);
-                                    isStatusValid = false;
+                                    break;
                                 }
-                                break;
                             }
+
+                            if (!markTaskIdFound)
+                                Console.WriteLine("Task ID does not exist!");
+
                         }
-                            break;
+                        break;
 
                     case 6:
                         Console.WriteLine("Coming soon!");
