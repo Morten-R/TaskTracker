@@ -34,18 +34,6 @@
              * - updatedAt: The date and time when the task was last updated
              * 
              * Make sure to add these properties to the JSON file when adding a new task and update them when updating a task. 
-             * 
-             * Suggested Next Feature Order
-             * I’d personally go:
-             * 
-             * 1. Add JSON save/load                (done)
-             * 2. Remove by ID                      (done)
-             * 3. Update task                       (done)
-             * 4. Mark done/in progress             (done)
-             * 5. Filter tasks by status            (InProgress)
-             * 6. Convert to real CLI args later    (to-do)
-             *
-             *That progression makes sense.
              */
 
 

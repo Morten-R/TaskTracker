@@ -1,17 +1,26 @@
 Classes			Funksjon
-----------------------------------------------------------------------------
-Program			Kjøre programmet
-InfoMessage		Litt informasjon om hva de forskjellige valgene gir
-TaskTracker		Logikken for TaskTrackeren
-UserInput		Klasse for å håndtere inputs fra brukeren
-Validator		Passe på at inputen fra brukeren er riktig
-Menu			Liste over hvilke valgmuligheter brukeren har
-Add			Legge til en oppgave
-Update			Oppdatere en oppgave
-Delete			Slette en oppgave
-MarkTask		Markere en oppgave som uferdig eller ferdig
-Lists			Class til listene
-AllTasksList		En liste hvor man kan legge til alle oppgavene		?
-DoneTasksList		En liste hvor alle ferdige oppgaver blir lagt til	?
-InProgressTasksList	En liste hvor alle uferdige oppgaver blir lagt til	?
-ToDoItem		Properties som alle oppgaver skal ha
+----------------------------------------------------------------------------------------
+Program				Kjøre programmet
+InfoMessage			Litt informasjon om hva de forskjellige valgene gir
+TaskTracker			Logikken for TaskTrackeren
+UserInput			Klasse for å håndtere inputs fra brukeren
+Validator			Passe på at inputen fra brukeren er riktig
+Menu				Liste over hvilke valgmuligheter brukeren har
+Add				Legge til en oppgave
+Update				Oppdatere en oppgave
+Delete				Slette en oppgave
+MarkTask			Markere en oppgave som uferdig eller ferdig
+Lists				Class til listene
+AllTasksList			En liste hvor man kan legge til alle oppgavene		
+DoneTasksList			En liste hvor alle ferdige oppgaver blir lagt til	
+InProgressTasksList		En liste hvor alle uferdige oppgaver blir lagt til	
+ToDoItem			Properties som alle oppgaver skal ha
+
+
+
+Trenger ikke så mange "spesefikke" classes. Samla Add, Update, Delete, Mark og Listinga
+under en class (UserOptions).
+
+La også til en class, TaskStorage for å håndtere JSON.
+
+Fjernet også InfoMessage classen og la det heller direkte inn i TaskTracker classen.
