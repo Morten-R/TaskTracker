@@ -8,8 +8,8 @@ namespace TaskTracker_CLI
 {
     public class UserOptions
     {
-        public bool isValid { get; set; } = true;
-        public int Choice { get; set; }
+        private bool isValid { get; set; } = true;
+        private int Choice { get; set; }
 
 
         public List<ToDoItem> toDoList = GetLoadFile();
