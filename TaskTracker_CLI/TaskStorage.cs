@@ -22,18 +22,20 @@ namespace TaskTracker_CLI
 
         public List<ToDoItem> LoadFile()
         {
+            if (!File.Exists("tasks.json"))
+            {
+                return new List<ToDoItem>();
+            }
+
             string jsonString = File.ReadAllText("tasks.json");
             var desString = JsonSerializer.Deserialize<List<ToDoItem>>(jsonString);
 
             if (desString != null)
             {
-                return desString;
+                return desString;   
             }
 
-            else
-            {
-                return new List<ToDoItem>();
-            }
+            return new List<ToDoItem>();
         }
     }
 }
