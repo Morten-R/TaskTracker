@@ -32,7 +32,6 @@ namespace TaskTracker_CLI
 
                         else
                         {
-                            
                             Console.WriteLine("Showing all tasks:\n");
                             
                             foreach (var task in toDoList)
@@ -74,31 +73,28 @@ namespace TaskTracker_CLI
                         {
                             int id = userInput.InputTaskID("\nEnter task ID for the task you want to update: ");
 
-                            bool updateTaskIdFound = false;
+                            var task = FindTaskById(id);
 
-                            for (int i = 0; i < toDoList.Count; i++)
+                            if (task != null)
                             {
-                                if (id == toDoList[i].Id)
-                                {
-                                    Console.WriteLine("Please enter new task: ");
-                                    string? newTask = Console.ReadLine();
-                                    toDoList[i].Description = newTask;
-                                    toDoList[i].UpdatedAt = DateTime.Now;
-                                    updateTaskIdFound = true;
+                                Console.WriteLine("Please enter new task: ");
+                                string? newTask = Console.ReadLine();
+                                task.Description = newTask;
+                                task.UpdatedAt = DateTime.Now;
 
-                                    Console.WriteLine("Task succesfully updated!");
+                                Console.WriteLine("Task succesfully updated!");
 
-                                    taskStorage.SaveFile(toDoList);
+                                taskStorage.SaveFile(toDoList);
 
-                                    isUpdateValid = false;
+                                isUpdateValid = false;
 
-                                    break;
-                                }                            
+                                break;
                             }
 
-                            if (!updateTaskIdFound)
+                            if (task == null)
                                 Console.WriteLine("Task ID does not exist!");
                         }
+
                         break;
 
                     case 4:
@@ -108,15 +104,12 @@ namespace TaskTracker_CLI
                         {
                             int taskID = userInput.InputTaskID("\nEnter the ID for the task you want to remove: ");
 
-                            bool removeTaskIdFound = false;
+                            var remTask = FindTaskById(taskID);
 
-                            for (int i = 0; i < toDoList.Count; i++)
-                            {
-                                if (taskID == toDoList[i].Id)
+                                if (remTask != null)
                                 {
-                                    toDoList.Remove(toDoList[i]);
+                                    toDoList.Remove(remTask);
                                     Console.WriteLine("Task succesfully removed!");
-                                    removeTaskIdFound = true;
 
                                     taskStorage.SaveFile(toDoList);
 
@@ -124,9 +117,8 @@ namespace TaskTracker_CLI
 
                                     break;
                                 }
-                            }
 
-                            if (!removeTaskIdFound)
+                            if (remTask == null)
                                 Console.WriteLine("Task ID does not exist!");
                         }
                         break;
@@ -138,47 +130,44 @@ namespace TaskTracker_CLI
                         {
                             int markID = userInput.InputTaskID("\nEnter the task ID for the task's status you want to change: ");
 
-                            bool markTaskIdFound = false;
+                            var markTask = FindTaskById(markID);
 
-                            for (int i = 0; i < toDoList.Count; i++)
+                            if (markTask != null)
                             {
-                                if (markID == toDoList[i].Id)
-                                {
-                                    Console.WriteLine("\nPlease enter what status you want to give the task: ");
+                                 Console.WriteLine("\nPlease enter what status you want to give the task: ");
 
-                                    bool isStatusValid = true;
-                                    while (isStatusValid)
+                                 bool isStatusValid = true;
+                                 while (isStatusValid)
+                                 {
+                                    string? statusInput = Console.ReadLine();
+                                    if (statusInput == "ToDo")
+                                        markTask.Status = TaskStatus.ToDo;
+
+                                    else if (statusInput == "InProgress")
+                                        markTask.Status = TaskStatus.InProgress;
+
+                                    else if (statusInput == "Done")
+                                        markTask.Status = TaskStatus.Done;
+
+                                    else
                                     {
-                                        string? statusInput = Console.ReadLine();
-                                        if (statusInput == "ToDo")
-                                            toDoList[i].Status = TaskStatus.ToDo;
-
-                                        else if (statusInput == "InProgress")
-                                            toDoList[i].Status = TaskStatus.InProgress;
-
-                                        else if (statusInput == "Done")
-                                            toDoList[i].Status = TaskStatus.Done;
-
-                                        else
-                                        {
-                                            Console.WriteLine("\nPlease enter \"ToDo\", \"InProgress\" or \"Done\".");
-                                            continue;
-                                        }
-
-                                        Console.WriteLine("\nStatus succesfully changed!");
-                                        markTaskIdFound = true;
-
-                                        toDoList[i].UpdatedAt = DateTime.Now;
-                                        taskStorage.SaveFile(toDoList);
-                                        isStatusValid = false;
-
-                                        isMarkValid = false;
+                                        Console.WriteLine("\nPlease enter \"ToDo\", \"InProgress\" or \"Done\".");
+                                        continue;
                                     }
-                                    break;
-                                }
+
+                                    Console.WriteLine("\nStatus succesfully changed!");
+                                        
+
+                                    markTask.UpdatedAt = DateTime.Now;
+                                    taskStorage.SaveFile(toDoList);
+                                    isStatusValid = false;
+
+                                    isMarkValid = false;
+                                 }
+                                 break;
                             }
 
-                            if (!markTaskIdFound)
+                            if (markTask == null)
                                 Console.WriteLine("Task ID does not exist!");
 
                         }
@@ -227,6 +216,17 @@ namespace TaskTracker_CLI
             {
                 Console.WriteLine($"ID: {task.Id}\t Name: {task.Description}\t\t Status: {task.Status}\t\t Created: {task.CreatedAt}\t Last updated: {task.UpdatedAt}");
             }
+        }
+
+        public ToDoItem? FindTaskById(int id)
+        {
+            for (int i = 0; i < toDoList.Count; i++)
+            {
+                if (toDoList[i].Id == id)
+                    return toDoList[i];
+            }
+
+            return null;
         }
     }
 }
