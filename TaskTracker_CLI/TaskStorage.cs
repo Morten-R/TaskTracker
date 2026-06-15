@@ -28,6 +28,10 @@ namespace TaskTracker_CLI
             }
 
             string jsonString = File.ReadAllText("tasks.json");
+
+            if (string.IsNullOrEmpty(jsonString))
+                return new List<ToDoItem>();
+
             var desString = JsonSerializer.Deserialize<List<ToDoItem>>(jsonString);
 
             if (desString != null)
