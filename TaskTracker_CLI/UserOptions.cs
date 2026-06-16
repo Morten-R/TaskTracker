@@ -33,7 +33,29 @@ namespace TaskTracker_CLI
 
                     case 2:
                         // add tasks
-                        taskManager.AddTask(toDoList, taskStorage);
+                        //taskManager.AddTask(toDoList, taskStorage);
+
+                        bool addingTask = true;
+
+                        while (addingTask)
+                        {
+                            Console.WriteLine("Add a task: ");
+                            string? description = Console.ReadLine();
+
+                            if (string.IsNullOrWhiteSpace(description))
+                            {
+                                Console.WriteLine("Task description cannot be empty.");
+                                continue;
+                            }
+
+                            taskManager.AddTask(toDoList, description);
+                            Console.WriteLine($"Task added succesfully!");
+
+                            taskManager.SaveTasks(taskStorage, toDoList);
+
+                            addingTask = false;
+                        }
+
                         break;
 
                     case 3:
@@ -54,25 +76,82 @@ namespace TaskTracker_CLI
                                 taskManager.UpdateTask(task, newDescription);
                                 
                                 Console.WriteLine("Task succesfully updated!");
-                                taskStorage.SaveFile(toDoList);
+                                taskManager.SaveTasks(taskStorage, toDoList);
                                 isUpdateValid = false;
                             }
 
                             else
-                            {
                                 Console.WriteLine("Task ID does not exist!");
-                            }
                         }
                         break;
 
                     case 4:
                         // remove a task
-                        taskManager.RemoveTask(toDoList, userInput, taskStorage);
+                        bool isRemoveIdValid = true;
+
+                        while (isRemoveIdValid)
+                        {
+                            int taskID = userInput.InputTaskID("\nEnter the ID for the task you want to remove: ");
+
+                            var remTask = taskManager.FindTaskById(toDoList, taskID);
+
+                            if (remTask != null)
+                            {
+                                taskManager.RemoveTask(toDoList, remTask);
+                                Console.WriteLine("Task succesfully removed!");
+
+                                taskManager.SaveTasks(taskStorage, toDoList);
+                                isRemoveIdValid = false;
+                            }
+
+                            else
+                                Console.WriteLine("Task ID does not exist!");
+                        }
                         break;
 
                     case 5:
                         // mark task as done or in-progress
-                        taskManager.MarkTask(toDoList, userInput, taskStorage);
+                        bool isMarkIdValid = true;
+
+                        while (isMarkIdValid)
+                        {
+                            int markID = userInput.InputTaskID("\nEnter the task ID for the task's status you want to change: ");
+
+                            var markTask = taskManager.FindTaskById(toDoList, markID);
+
+                            if (markTask != null)
+                            {
+                                Console.WriteLine("\nPlease enter what status you want to give the task: ");
+
+                                bool isStatusValid = true;
+                                while (isStatusValid)
+                                {
+                                    string? statusInput = Console.ReadLine();
+
+                                    if (statusInput == "ToDo")
+                                        taskManager.MarkTask(markTask, TaskStatus.ToDo);
+
+                                    else if (statusInput == "InProgress")
+                                        taskManager.MarkTask(markTask, TaskStatus.InProgress);
+
+                                    else if (statusInput == "Done")
+                                        taskManager.MarkTask(markTask, TaskStatus.Done);
+
+                                    else
+                                    {
+                                        Console.WriteLine("\nPlease enter \"ToDo\", \"InProgress\" or \"Done\".");
+                                        continue;
+                                    }
+
+                                    Console.WriteLine("\nStatus succesfully changed!");
+                                    taskManager.SaveTasks(taskStorage, toDoList);
+                                    isStatusValid = false;
+                                    isMarkIdValid = false;
+                                }
+                            }
+                            else
+                                Console.WriteLine("Task ID does not exist!");
+                        }
                         break;
 
                     case 6:
