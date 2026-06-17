@@ -28,13 +28,24 @@ namespace TaskTracker_CLI
                 {
                     case 1:
                         // show all tasks
-                        taskManager.ShowAllTasks(toDoList);
+                        var tasks = taskManager.ShowAllTasks(toDoList);
+
+                        if (toDoList.Count == 0)
+                            Console.WriteLine("The list is empty!");
+
+                        else
+                        {
+                            Console.WriteLine("Showing all tasks:\n");
+
+                            foreach (var task in toDoList)
+                            {
+                                Console.WriteLine($"{task.Id}: {task.Description}\t\tStatus: {task.Status}\tCreated: {task.CreatedAt}\tLast updated: {task.UpdatedAt}");
+                            }
+                        }
                         break;
 
                     case 2:
                         // add tasks
-                        //taskManager.AddTask(toDoList, taskStorage);
-
                         bool addingTask = true;
 
                         while (addingTask)
@@ -51,11 +62,10 @@ namespace TaskTracker_CLI
                             taskManager.AddTask(toDoList, description);
                             Console.WriteLine($"Task added succesfully!");
 
-                            taskManager.SaveTasks(taskStorage, toDoList);
+                            taskStorage.SaveTasks(taskStorage, toDoList);
 
                             addingTask = false;
                         }
-
                         break;
 
                     case 3:
@@ -76,7 +86,7 @@ namespace TaskTracker_CLI
                                 taskManager.UpdateTask(task, newDescription);
                                 
                                 Console.WriteLine("Task succesfully updated!");
-                                taskManager.SaveTasks(taskStorage, toDoList);
+                                taskStorage.SaveTasks(taskStorage, toDoList);
                                 isUpdateValid = false;
                             }
 
@@ -100,7 +110,7 @@ namespace TaskTracker_CLI
                                 taskManager.RemoveTask(toDoList, remTask);
                                 Console.WriteLine("Task succesfully removed!");
 
-                                taskManager.SaveTasks(taskStorage, toDoList);
+                                taskStorage.SaveTasks(taskStorage, toDoList);
                                 isRemoveIdValid = false;
                             }
 
@@ -110,7 +120,7 @@ namespace TaskTracker_CLI
                         break;
 
                     case 5:
-                        // mark task as done or in-progress
+                        // mark task as todo, done or in-progress
                         bool isMarkIdValid = true;
 
                         while (isMarkIdValid)
@@ -144,7 +154,7 @@ namespace TaskTracker_CLI
                                     }
 
                                     Console.WriteLine("\nStatus succesfully changed!");
-                                    taskManager.SaveTasks(taskStorage, toDoList);
+                                    taskStorage.SaveTasks(taskStorage, toDoList);
                                     isStatusValid = false;
                                     isMarkIdValid = false;
                                 }
@@ -156,17 +166,32 @@ namespace TaskTracker_CLI
 
                     case 6:
                         Console.WriteLine("Showing tasks that's done:");
-                        taskManager.FilterByStatus(toDoList, TaskStatus.Done);
+                        var doneTasks = taskManager.FilterByStatus(toDoList, TaskStatus.Done);
+
+                        foreach (var task in doneTasks)
+                        {
+                            Console.WriteLine($"ID: {task.Id}\t Name: {task.Description}\t\t Status: {task.Status}\t\t Created: {task.CreatedAt}\t Last updated: {task.UpdatedAt}");
+                        }
                         break;
 
                     case 7:
                         Console.WriteLine("Showing tasks that's in-progress:");
-                        taskManager.FilterByStatus(toDoList, TaskStatus.InProgress);
+                        var inProgTasks = taskManager.FilterByStatus(toDoList, TaskStatus.InProgress);
+
+                        foreach (var task in inProgTasks)
+                        {
+                            Console.WriteLine($"ID: {task.Id}\t Name: {task.Description}\t\t Status: {task.Status}\t\t Created: {task.CreatedAt}\t Last updated: {task.UpdatedAt}");
+                        }
                         break;
 
                     case 8:
                         Console.WriteLine("Showing tasks ToDo:");
-                        taskManager.FilterByStatus(toDoList, TaskStatus.ToDo);
+                        var toDoTasks = taskManager.FilterByStatus(toDoList, TaskStatus.ToDo);
+
+                        foreach (var task in toDoTasks)
+                        {
+                            Console.WriteLine($"ID: {task.Id}\t Name: {task.Description}\t\t Status: {task.Status}\t\t Created: {task.CreatedAt}\t Last updated: {task.UpdatedAt}");
+                        }
                         break;
 
                     case 9:

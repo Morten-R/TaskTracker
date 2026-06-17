@@ -19,15 +19,9 @@ namespace TaskTracker_CLI
             return null;
         }
 
-        public void FilterByStatus(List<ToDoItem> toDoList, TaskStatus status)
+        public IEnumerable<ToDoItem> FilterByStatus(List<ToDoItem> toDoList, TaskStatus status)
         {
-            var filteredTasks = toDoList
-                .Where(task => task.Status == status);
-
-            foreach (var task in filteredTasks)
-            {
-                Console.WriteLine($"ID: {task.Id}\t Name: {task.Description}\t\t Status: {task.Status}\t\t Created: {task.CreatedAt}\t Last updated: {task.UpdatedAt}");
-            }
+            return toDoList.Where(task => task.Status == status);
         }
 
         public void AddTask(List<ToDoItem> toDoList, string description)
@@ -61,25 +55,9 @@ namespace TaskTracker_CLI
             markTask.UpdatedAt = DateTime.Now; 
         }
 
-        public void ShowAllTasks(List<ToDoItem> toDoList)
+        public IEnumerable<ToDoItem> ShowAllTasks(List<ToDoItem> toDoList)
         {
-            if (toDoList.Count == 0)
-                Console.WriteLine("The list is empty!");
-
-            else
-            {
-                Console.WriteLine("Showing all tasks:\n");
-
-                foreach (var task in toDoList)
-                {
-                    Console.WriteLine($"{task.Id}: {task.Description}\t\tStatus: {task.Status}\tCreated: {task.CreatedAt}\tLast updated: {task.UpdatedAt}");
-                }
-            }
-        }
-
-        public void SaveTasks(TaskStorage taskStorage, List<ToDoItem> toDoList)
-        {
-            taskStorage.SaveFile(toDoList);
+            return toDoList;
         }
     }
 }
