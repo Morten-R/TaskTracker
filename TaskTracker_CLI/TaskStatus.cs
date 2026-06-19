@@ -8,8 +8,8 @@ namespace TaskTracker_CLI
 {
     public enum TaskStatus
     {
-        ToDo,
-        InProgress,
-        Done
+        ToDo = 1,
+        InProgress = 2,
+        Done = 3
     }
 }

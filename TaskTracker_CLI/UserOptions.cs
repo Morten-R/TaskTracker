@@ -62,7 +62,7 @@ namespace TaskTracker_CLI
                             taskManager.AddTask(toDoList, description);
                             Console.WriteLine($"Task added succesfully!");
 
-                            taskStorage.SaveTasks(taskStorage, toDoList);
+                            taskStorage.SaveFile(toDoList);
 
                             addingTask = false;
                         }
@@ -86,7 +86,7 @@ namespace TaskTracker_CLI
                                 taskManager.UpdateTask(task, newDescription);
                                 
                                 Console.WriteLine("Task succesfully updated!");
-                                taskStorage.SaveTasks(taskStorage, toDoList);
+                                taskStorage.SaveFile(toDoList);
                                 isUpdateValid = false;
                             }
 
@@ -110,7 +110,7 @@ namespace TaskTracker_CLI
                                 taskManager.RemoveTask(toDoList, remTask);
                                 Console.WriteLine("Task succesfully removed!");
 
-                                taskStorage.SaveTasks(taskStorage, toDoList);
+                                taskStorage.SaveFile(toDoList);
                                 isRemoveIdValid = false;
                             }
 
@@ -138,14 +138,10 @@ namespace TaskTracker_CLI
                                 {
                                     string? statusInput = Console.ReadLine();
 
-                                    if (statusInput == "ToDo")
-                                        taskManager.MarkTask(markTask, TaskStatus.ToDo);
-
-                                    else if (statusInput == "InProgress")
-                                        taskManager.MarkTask(markTask, TaskStatus.InProgress);
-
-                                    else if (statusInput == "Done")
-                                        taskManager.MarkTask(markTask, TaskStatus.Done);
+                                    if (Enum.TryParse<TaskStatus>(statusInput, true, out var status))
+                                    {
+                                        taskManager.MarkTask(markTask, status);
+                                    }
 
                                     else
                                     {
@@ -154,7 +150,7 @@ namespace TaskTracker_CLI
                                     }
 
                                     Console.WriteLine("\nStatus succesfully changed!");
-                                    taskStorage.SaveTasks(taskStorage, toDoList);
+                                    taskStorage.SaveFile(toDoList);
                                     isStatusValid = false;
                                     isMarkIdValid = false;
                                 }

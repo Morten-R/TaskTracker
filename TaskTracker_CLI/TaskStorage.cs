@@ -41,10 +41,5 @@ namespace TaskTracker_CLI
 
             return new List<ToDoItem>();
         }
-
-        public void SaveTasks(TaskStorage taskStorage, List<ToDoItem> toDoList)
-        {
-            taskStorage.SaveFile(toDoList);
-        }
     }
 }
