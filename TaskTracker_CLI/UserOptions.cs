@@ -208,5 +208,23 @@ namespace TaskTracker_CLI
 
             return loadedTasks;
         }
+
+        public void AddTask(TaskManager taskManager)
+        {
+            var tasks = taskManager.ShowAllTasks(toDoList);
+
+            if (toDoList.Count == 0)
+                Console.WriteLine("The list is empty!");
+
+            else
+            {
+                Console.WriteLine("Showing all tasks:\n");
+
+                foreach (var task in toDoList)
+                {
+                    Console.WriteLine($"{task.Id}: {task.Description}\t\tStatus: {task.Status}\tCreated: {task.CreatedAt}\tLast updated: {task.UpdatedAt}");
+                }
+            }
+        }
     }
 }
