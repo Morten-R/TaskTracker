@@ -8,27 +8,27 @@ namespace TaskTracker_CLI
 {
     public class TaskManager
     {
-        public ToDoItem? FindTaskById(List<ToDoItem> toDoList, int id)
+        public ToDoItem? FindTaskById(List<ToDoItem> tasks, int id)
         {
-            for (int i = 0; i < toDoList.Count; i++)
+            for (int i = 0; i < tasks.Count; i++)
             {
-                if (toDoList[i].Id == id)
-                    return toDoList[i];
+                if (tasks[i].Id == id)
+                    return tasks[i];
             }
 
             return null;
         }
 
-        public IEnumerable<ToDoItem> FilterByStatus(List<ToDoItem> toDoList, TaskStatus status)
+        public IEnumerable<ToDoItem> FilterByStatus(List<ToDoItem> tasks, TaskStatus status)
         {
-            return toDoList.Where(task => task.Status == status);
+            return tasks.Where(task => task.Status == status);
         }
 
-        public void AddTask(List<ToDoItem> toDoList, string description)
+        public void AddTask(List<ToDoItem> tasks, string description)
         {
-            toDoList.Add(new ToDoItem
+            tasks.Add(new ToDoItem
             {
-            Id = toDoList.Count == 0 ? 1 : toDoList.Max(t => t.Id) + 1,
+            Id = tasks.Count == 0 ? 1 : tasks.Max(t => t.Id) + 1,
             Description = description,
             Status = TaskStatus.ToDo,
             CreatedAt = DateTime.Now,
@@ -44,9 +44,9 @@ namespace TaskTracker_CLI
 
         
 
-        public void RemoveTask(List<ToDoItem> toDoList, ToDoItem remTask)
+        public void RemoveTask(List<ToDoItem> tasks, ToDoItem remTask)
         {
-            toDoList.Remove(remTask);
+            tasks.Remove(remTask);
         }
 
         public void MarkTask(ToDoItem markTask, TaskStatus userChoice)
@@ -55,9 +55,9 @@ namespace TaskTracker_CLI
             markTask.UpdatedAt = DateTime.Now; 
         }
 
-        public IEnumerable<ToDoItem> ShowAllTasks(List<ToDoItem> toDoList)
+        public IEnumerable<ToDoItem> ShowAllTasks(List<ToDoItem> tasks)
         {
-            return toDoList;
+            return tasks;
         }
     }
 }

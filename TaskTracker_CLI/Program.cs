@@ -37,8 +37,60 @@
              */
 
 
-            TaskTracker taskTracker = new();
-            taskTracker.Run();
+            /*TaskTracker taskTracker = new();
+            taskTracker.Run();*/
+
+            TaskStorage taskStorage = new();
+            TaskManager taskManager = new();
+
+            List<ToDoItem> tasks = taskStorage.LoadFile();
+
+        
+            
+                if (args.Length == 0)
+                {
+                    Console.WriteLine("Please provide a command.");
+                    return;
+                }
+
+                switch (args[0].ToLower())
+                {
+                    case "list":
+                        var allTasks = taskManager.ShowAllTasks(tasks);
+                        
+                        foreach (var task in allTasks)
+                            Console.WriteLine($"{task.Id}: {task.Description}");
+
+                        break;
+
+                    case "add":
+                    {
+                        string description = args[1];
+
+                        taskManager.AddTask(tasks, description);
+                        taskStorage.SaveFile(tasks);
+
+                        Console.WriteLine("Task added.");
+                        break;
+
+                    }
+
+                    case "update":
+                        Console.WriteLine("Update command");
+                        break;
+
+                    case "delete":
+                        Console.WriteLine("Delete command");
+                        break;
+
+                    case "mark":
+                        Console.WriteLine("Mark command");
+                        break;
+
+                    default:
+                        Console.WriteLine("Unknown command.");
+                        break;
+                }
         }
     }
 }

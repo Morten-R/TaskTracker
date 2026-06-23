@@ -9,14 +9,14 @@ namespace TaskTracker_CLI
 {
     public class TaskStorage
     {
-        public void SaveFile(List<ToDoItem> toDoList)
+        public void SaveFile(List<ToDoItem> tasks)
         {
             var prettyPrint = new JsonSerializerOptions
             {
                 WriteIndented = true
             };
 
-            string jsonString = JsonSerializer.Serialize(toDoList, prettyPrint);
+            string jsonString = JsonSerializer.Serialize(tasks, prettyPrint);
             File.WriteAllText("tasks.json", jsonString);
         }
 
