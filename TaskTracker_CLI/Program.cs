@@ -59,7 +59,7 @@
                         var allTasks = taskManager.ShowAllTasks(tasks);
                         
                         foreach (var task in allTasks)
-                            Console.WriteLine($"{task.Id}: {task.Description}");
+                            Console.WriteLine($"{task.Id}: {task.Description}\t {task.Status}");
 
                         break;
 
@@ -67,24 +67,72 @@
                     {
                         string description = args[1];
 
+                        if (string.IsNullOrWhiteSpace(description))
+                            Console.WriteLine("Task description cannot be empty!");
+
                         taskManager.AddTask(tasks, description);
                         taskStorage.SaveFile(tasks);
-
-                        Console.WriteLine("Task added.");
+                        Console.WriteLine("Task added succesfully!");
+                            
                         break;
-
                     }
 
                     case "update":
-                        Console.WriteLine("Update command");
+                    {
+                        string description = args[2];
+                        int updateId = Convert.ToInt32(((string)args[1]).ToLower());
+                        var updateTask = taskManager.FindTaskById(tasks, updateId);
+
+                        if (updateTask != null)
+                        {
+                            taskManager.UpdateTask(updateTask, description);
+                            Console.WriteLine("Task updated succesfully!");
+
+                            taskStorage.SaveFile(tasks);
+                        }
+                        else
+                            Console.WriteLine("Task ID does not exist!");
+                    }
                         break;
 
                     case "delete":
-                        Console.WriteLine("Delete command");
+                    {
+                        int deleteId = Convert.ToInt32(((string)args[1]).ToLower());
+                        var deleteTask = taskManager.FindTaskById(tasks, deleteId);
+
+                        if (deleteTask != null)
+                        {
+                            taskManager.RemoveTask(tasks, deleteTask);
+                            Console.WriteLine("Task succesfully removed!");
+
+                            taskStorage.SaveFile(tasks);
+                        }
+                        else
+                            Console.WriteLine("Task ID does not exist!");
+                    }
                         break;
 
                     case "mark":
-                        Console.WriteLine("Mark command");
+                    {
+                        int markId = Convert.ToInt32(((string)args[1]).ToLower());
+                        var markTask = taskManager.FindTaskById(tasks, markId);
+
+                        if (markTask != null)
+                        {
+                            string statusInput = (string)args[2];
+
+                            if (Enum.TryParse<TaskStatus>(statusInput, true, out TaskStatus status))
+                            {
+                                taskManager.MarkTask(markTask, status);
+                                Console.WriteLine("Task status succesfully changed!");
+                                taskStorage.SaveFile(tasks);
+                            }
+                            else
+                                Console.WriteLine("Please enter \"ToDo\", \"InProgress\" or \"Done\".");
+                        }
+                        else
+                            Console.WriteLine("Task ID does not exist!");
+                    }
                         break;
 
                     default:
