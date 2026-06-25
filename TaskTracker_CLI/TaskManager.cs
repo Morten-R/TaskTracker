@@ -54,10 +54,5 @@ namespace TaskTracker_CLI
             markTask.Status = userChoice;
             markTask.UpdatedAt = DateTime.Now; 
         }
-
-        public IEnumerable<ToDoItem> ShowAllTasks(List<ToDoItem> tasks)
-        {
-            return tasks;
-        }
     }
 }

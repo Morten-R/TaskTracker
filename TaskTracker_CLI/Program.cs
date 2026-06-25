@@ -56,19 +56,28 @@
                 switch (args[0].ToLower())
                 {
                     case "list":
-                        var allTasks = taskManager.ShowAllTasks(tasks);
-                        
-                        foreach (var task in allTasks)
+                    {
+                        foreach (var task in tasks)
                             Console.WriteLine($"{task.Id}: {task.Description}\t {task.Status}");
 
                         break;
+                    }
 
                     case "add":
                     {
-                        string description = args[1];
+                        if (args.Length < 2)
+                        {
+                            Console.WriteLine("Usage: Add <description>");
+                            break;
+                        }
+
+                        string description = string.Join(" ", args.Skip(1));
 
                         if (string.IsNullOrWhiteSpace(description))
+                        {
                             Console.WriteLine("Task description cannot be empty!");
+                            break;
+                        }
 
                         taskManager.AddTask(tasks, description);
                         taskStorage.SaveFile(tasks);
@@ -79,8 +88,20 @@
 
                     case "update":
                     {
+                        if (args.Length < 2)
+                        {
+                            Console.WriteLine("Usage: <Id> <description>");
+                            break;
+                        }
+
                         string description = args[2];
-                        int updateId = Convert.ToInt32(((string)args[1]).ToLower());
+
+                        if (!int.TryParse(args[1], out int updateId))
+                        {
+                            Console.WriteLine("Invalid task ID.");
+                            break;
+                        }
+
                         var updateTask = taskManager.FindTaskById(tasks, updateId);
 
                         if (updateTask != null)
@@ -97,7 +118,18 @@
 
                     case "delete":
                     {
-                        int deleteId = Convert.ToInt32(((string)args[1]).ToLower());
+                        if (args.Length < 2)
+                        {
+                            Console.WriteLine("Usage: <Id> <description>");
+                            break;
+                        }
+
+                        if (!int.TryParse(args[1], out int deleteId))
+                        {
+                            Console.WriteLine("Invalid task ID.");
+                            break;
+                        }
+
                         var deleteTask = taskManager.FindTaskById(tasks, deleteId);
 
                         if (deleteTask != null)
@@ -114,7 +146,18 @@
 
                     case "mark":
                     {
-                        int markId = Convert.ToInt32(((string)args[1]).ToLower());
+                        if (args.Length < 2)
+                        {
+                            Console.WriteLine("Usage: <Id> <description>");
+                            break;
+                        }
+
+                        if (!int.TryParse(args[1], out int markId))
+                        {
+                            Console.WriteLine("Invalid task ID.");
+                            break;
+                        }
+
                         var markTask = taskManager.FindTaskById(tasks, markId);
 
                         if (markTask != null)
@@ -134,6 +177,15 @@
                             Console.WriteLine("Task ID does not exist!");
                     }
                         break;
+
+                    case "help":
+                        Console.WriteLine("If you are stuck and don't know how to write any commands. Just enter 'dotnet run' followed by one of the commands beneath.\n");
+                        Console.WriteLine("add <description>");
+                        Console.WriteLine("update <id> <description>");
+                        Console.WriteLine("delete <id>");
+                        Console.WriteLine("mark <id> <ToDo|InProgress|Done>");
+                        break;
+
 
                     default:
                         Console.WriteLine("Unknown command.");
