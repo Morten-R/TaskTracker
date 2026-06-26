@@ -1,4 +1,6 @@
-﻿namespace TaskTracker_CLI
+﻿using System.Threading.Tasks;
+
+namespace TaskTracker_CLI
 {
     public class Program
     {
@@ -45,48 +47,25 @@
 
             List<ToDoItem> tasks = taskStorage.LoadFile();
 
-        
-            
-                if (args.Length == 0)
-                {
-                    Console.WriteLine("Please provide a command.");
-                    return;
-                }
 
-                switch (args[0].ToLower())
-                {
-                    case "list":
-                    {
-                        foreach (var task in tasks)
-                            Console.WriteLine($"{task.Id}: {task.Description}\t {task.Status}");
 
+            if (args.Length == 0)
+            {
+                Console.WriteLine("Please provide a command.");
+                return;
+            }
+
+            switch (args[0].ToLower())
+            {
+                case "list":
+                        GetList(tasks);
                         break;
-                    }
 
-                    case "add":
-                    {
-                        if (args.Length < 2)
-                        {
-                            Console.WriteLine("Usage: Add <description>");
-                            break;
-                        }
-
-                        string description = string.Join(" ", args.Skip(1));
-
-                        if (string.IsNullOrWhiteSpace(description))
-                        {
-                            Console.WriteLine("Task description cannot be empty!");
-                            break;
-                        }
-
-                        taskManager.AddTask(tasks, description);
-                        taskStorage.SaveFile(tasks);
-                        Console.WriteLine("Task added succesfully!");
-                            
+                case "add":
+                        AddCommand(args, taskManager, tasks, taskStorage);
                         break;
-                    }
 
-                    case "update":
+                case "update":
                     {
                         if (args.Length < 2)
                         {
@@ -114,9 +93,9 @@
                         else
                             Console.WriteLine("Task ID does not exist!");
                     }
-                        break;
+                    break;
 
-                    case "delete":
+                case "delete":
                     {
                         if (args.Length < 2)
                         {
@@ -142,9 +121,9 @@
                         else
                             Console.WriteLine("Task ID does not exist!");
                     }
-                        break;
+                    break;
 
-                    case "mark":
+                case "mark":
                     {
                         if (args.Length < 2)
                         {
@@ -176,21 +155,52 @@
                         else
                             Console.WriteLine("Task ID does not exist!");
                     }
-                        break;
+                    break;
 
-                    case "help":
-                        Console.WriteLine("If you are stuck and don't know how to write any commands. Just enter 'dotnet run' followed by one of the commands beneath.\n");
-                        Console.WriteLine("add <description>");
-                        Console.WriteLine("update <id> <description>");
-                        Console.WriteLine("delete <id>");
-                        Console.WriteLine("mark <id> <ToDo|InProgress|Done>");
-                        break;
+                case "help":
+                    Console.WriteLine("If you're stuck and don't know how to write any commands. Just enter 'dotnet run' followed by one of the commands beneath.\n");
+                    Console.WriteLine("add <description>");
+                    Console.WriteLine("update <id> <description>");
+                    Console.WriteLine("delete <id>");
+                    Console.WriteLine("mark <id> <ToDo|InProgress|Done>");
+                    break;
 
 
-                    default:
-                        Console.WriteLine("Unknown command.");
-                        break;
+                default:
+                    Console.WriteLine("Unknown command.");
+                    break;
+            }
+        }
+
+        private static void GetList(List<ToDoItem> tasks)
+        {
+            foreach (var task in tasks)
+                Console.WriteLine($"{task.Id}: {task.Description}\t {task.Status}");
+        }
+
+        private static void AddCommand(string[] args, TaskManager taskManager, List<ToDoItem> tasks, TaskStorage taskStorage)
+        {
+            bool addCommandLoop = true;
+            while (addCommandLoop)
+            {
+                if (args.Length < 2)
+                {
+                    Console.WriteLine("Usage: Add <description>");
+                    break;
                 }
+
+                string description = string.Join(" ", args.Skip(1));
+
+                if (string.IsNullOrWhiteSpace(description))
+                {
+                    Console.WriteLine("Task description cannot be empty!");
+                }
+
+                taskManager.AddTask(tasks, description);
+                taskStorage.SaveFile(tasks);
+                Console.WriteLine("Task added succesfully!");
+                addCommandLoop = false;
+            }
         }
     }
 }
