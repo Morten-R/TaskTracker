@@ -8,9 +8,9 @@ namespace TaskTracker_CLI
         {
             TaskStorage taskStorage = new();
             TaskManager taskManager = new();
-            CommandHandler handler = new();
-
+            
             List<ToDoItem> tasks = taskStorage.LoadFile();
+            CommandHandler handler = new(taskManager, taskStorage, tasks);
 
             if (args.Length == 0)
             {
@@ -21,23 +21,23 @@ namespace TaskTracker_CLI
             switch (args[0].ToLower())
             {
                 case "list":
-                    handler.GetList(tasks);
+                    handler.GetList();
                     break;
 
                 case "add":
-                    handler.AddCommand(args, taskManager, tasks, taskStorage);
+                    handler.AddCommand(args);
                     break;
 
                 case "update":
-                    handler.UpdateCommand(args, taskManager, tasks, taskStorage);
+                    handler.UpdateCommand(args);
                     break;
 
                 case "delete":
-                    handler.DeleteCommand(args, taskManager, tasks, taskStorage);
+                    handler.DeleteCommand(args);
                     break;
 
                 case "mark":
-                    handler.MarkCommand(args, taskManager, tasks, taskStorage);
+                    handler.MarkCommand(args);
                     break;
 
                 case "help":

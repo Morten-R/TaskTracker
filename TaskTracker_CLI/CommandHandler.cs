@@ -8,13 +8,28 @@ namespace TaskTracker_CLI
 {
     public class CommandHandler
     {
-        public void GetList(List<ToDoItem> tasks)
+        private readonly TaskManager _taskManager;
+        private readonly TaskStorage _taskStorage;
+        private readonly List<ToDoItem> _tasks;
+        public CommandHandler(TaskManager taskManager, TaskStorage taskStorage, List<ToDoItem> tasks)
         {
-            foreach (var task in tasks)
+            _taskManager = taskManager;
+            _taskStorage = taskStorage;
+            _tasks = tasks;
+        }
+        public void GetList()
+        {
+            if (!_tasks.Any())
+            {
+                Console.WriteLine("No tasks found.");
+                return;
+            }
+
+            foreach (var task in _tasks)
                 Console.WriteLine($"{task.Id}: {task.Description}\t {task.Status}");
         }
 
-        public void AddCommand(string[] args, TaskManager taskManager, List<ToDoItem> tasks, TaskStorage taskStorage)
+        public void AddCommand(string[] args)
         {
             if (args.Length < 2)
             {
@@ -30,13 +45,13 @@ namespace TaskTracker_CLI
                 return;
             }
 
-            taskManager.AddTask(tasks, description);
-            taskStorage.SaveFile(tasks);
+            _taskManager.AddTask(_tasks, description);
+            _taskStorage.SaveFile(_tasks);
 
-            Console.WriteLine("Task added succesfully!");
+            Console.WriteLine("Task added successfully!");
         }
 
-        public void UpdateCommand(string[] args, TaskManager taskManager, List<ToDoItem> tasks, TaskStorage taskStorage)
+        public void UpdateCommand(string[] args)
         {
             if (args.Length < 3)
             {
@@ -52,14 +67,14 @@ namespace TaskTracker_CLI
                 return;
             }
 
-            var updateTask = taskManager.FindTaskById(tasks, updateId);
+            var updateTask = _taskManager.FindTaskById(_tasks, updateId);
 
             if (updateTask != null)
             {
-                taskManager.UpdateTask(updateTask, description);
-                Console.WriteLine("Task updated succesfully!");
+                _taskManager.UpdateTask(updateTask, description);
+                Console.WriteLine("Task updated successfully!");
 
-                taskStorage.SaveFile(tasks);
+                _taskStorage.SaveFile(_tasks);
             }
             else
             {
@@ -68,7 +83,7 @@ namespace TaskTracker_CLI
             }
         }
 
-        public void DeleteCommand(string[] args, TaskManager taskManager, List<ToDoItem> tasks, TaskStorage taskStorage)
+        public void DeleteCommand(string[] args)
         {
             if (args.Length < 2)
             {
@@ -82,14 +97,14 @@ namespace TaskTracker_CLI
                 return;
             }
 
-            var deleteTask = taskManager.FindTaskById(tasks, deleteId);
+            var deleteTask = _taskManager.FindTaskById(_tasks, deleteId);
 
             if (deleteTask != null)
             {
-                taskManager.RemoveTask(tasks, deleteTask);
-                Console.WriteLine("Task succesfully removed!");
+                _taskManager.RemoveTask(_tasks, deleteTask);
+                Console.WriteLine("Task successfully removed!");
 
-                taskStorage.SaveFile(tasks);
+                _taskStorage.SaveFile(_tasks);
             }
             else
             {
@@ -98,11 +113,11 @@ namespace TaskTracker_CLI
             }
         }
 
-        public void MarkCommand(string[] args, TaskManager taskManager, List<ToDoItem> tasks, TaskStorage taskStorage)
+        public void MarkCommand(string[] args)
         {
             if (args.Length < 3)
             {
-                Console.WriteLine("Usage: mark <Id> <description>");
+                Console.WriteLine("Usage: mark <Id> <ToDo|InProgress|Done>");
                 return;
             }
 
@@ -112,7 +127,7 @@ namespace TaskTracker_CLI
                 return;
             }
 
-            var markTask = taskManager.FindTaskById(tasks, markId);
+            var markTask = _taskManager.FindTaskById(_tasks, markId);
 
             if (markTask != null)
             {
@@ -120,9 +135,9 @@ namespace TaskTracker_CLI
 
                 if (Enum.TryParse<TaskStatus>(statusInput, true, out TaskStatus status))
                 {
-                    taskManager.MarkTask(markTask, status);
-                    Console.WriteLine("Task status succesfully changed!");
-                    taskStorage.SaveFile(tasks);
+                    _taskManager.MarkTask(markTask, status);
+                    Console.WriteLine("Task status successfully changed!");
+                    _taskStorage.SaveFile(_tasks);
                 }
                 else
                 {
