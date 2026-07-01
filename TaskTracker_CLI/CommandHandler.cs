@@ -46,7 +46,7 @@ namespace TaskTracker_CLI
             }
 
             _taskManager.AddTask(_tasks, description);
-            _taskStorage.SaveFile(_tasks);
+            Save();
 
             Console.WriteLine("Task added successfully!");
         }
@@ -61,20 +61,14 @@ namespace TaskTracker_CLI
 
             string description = string.Join(" ", args.Skip(2));
 
-            if (!int.TryParse(args[1], out int updateId))
-            {
-                Console.WriteLine("Invalid task ID.");
-                return;
-            }
-
-            var updateTask = _taskManager.FindTaskById(_tasks, updateId);
+            var updateTask = GetTaskFromArgs(args);
 
             if (updateTask != null)
             {
                 _taskManager.UpdateTask(updateTask, description);
                 Console.WriteLine("Task updated successfully!");
 
-                _taskStorage.SaveFile(_tasks);
+                Save();
             }
             else
             {
@@ -91,20 +85,14 @@ namespace TaskTracker_CLI
                 return;
             }
 
-            if (!int.TryParse(args[1], out int deleteId))
-            {
-                Console.WriteLine("Invalid task ID.");
-                return;
-            }
-
-            var deleteTask = _taskManager.FindTaskById(_tasks, deleteId);
+            var deleteTask = GetTaskFromArgs(args);
 
             if (deleteTask != null)
             {
                 _taskManager.RemoveTask(_tasks, deleteTask);
                 Console.WriteLine("Task successfully removed!");
 
-                _taskStorage.SaveFile(_tasks);
+                Save();
             }
             else
             {
@@ -121,13 +109,7 @@ namespace TaskTracker_CLI
                 return;
             }
 
-            if (!int.TryParse(args[1], out int markId))
-            {
-                Console.WriteLine("Invalid task ID.");
-                return;
-            }
-
-            var markTask = _taskManager.FindTaskById(_tasks, markId);
+            var markTask = GetTaskFromArgs(args);
 
             if (markTask != null)
             {
@@ -137,7 +119,7 @@ namespace TaskTracker_CLI
                 {
                     _taskManager.MarkTask(markTask, status);
                     Console.WriteLine("Task status successfully changed!");
-                    _taskStorage.SaveFile(_tasks);
+                    Save();
                 }
                 else
                 {
@@ -151,5 +133,70 @@ namespace TaskTracker_CLI
                 return;
             }
         }
+
+        private void Save()
+        {
+            _taskStorage.SaveFile(_tasks);
+        }
+
+        private ToDoItem? GetTaskFromArgs(string[] args)
+        {
+            if (!int.TryParse(args[1], out int id))
+            {
+                Console.WriteLine("Invalid task ID.");
+            }
+
+            return _taskManager.FindTaskById(_tasks, id);
+        }
+
+        public void Execute(string[] args)
+        {
+            if (args.Length == 0)
+            {
+                Console.WriteLine("Please provide a command.");
+                return;
+            }
+
+            switch (args[0].ToLower())
+            {
+                case "list":
+                    GetList();
+                    break;
+
+                case "add":
+                    AddCommand(args);
+                    break;
+
+                case "update":
+                    UpdateCommand(args);
+                    break;
+
+                case "delete":
+                    DeleteCommand(args);
+                    break;
+
+                case "mark":
+                    MarkCommand(args);
+                    break;
+
+                case "help":
+                    Console.WriteLine("If you're stuck and don't know how to write any commands. Just enter 'dotnet run' followed by one of the following commands.\n");
+                    Console.WriteLine("For adding a task: add <description>");
+                    Console.WriteLine("To update a task: update <id> <description>");
+                    Console.WriteLine("To delete a task: delete <id>");
+                    Console.WriteLine("For marking a task: mark <id> <ToDo|InProgress|Done>");
+                    break;
+
+                default:
+                    Console.WriteLine("Unknown command.");
+                    break;
+            }
+        }
     }
 }
+
+/*
+ * Made a method to save updates/new things to the list. So now I can call Save() instead of _taskStorage.SaveFile(_tasks) every time I need to save changes.
+ * Made a helper method named GetTasksFromArgs(...) that I can use in update, delete and mark commands so I don't get duplicated code.
+ * Wanted to make Program.cs smaller(less code), so I moved the switch from Program.cs to CommandHandler class.
+*/
