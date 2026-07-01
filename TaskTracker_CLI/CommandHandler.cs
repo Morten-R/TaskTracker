@@ -194,9 +194,3 @@ namespace TaskTracker_CLI
         }
     }
 }
-
-/*
- * Made a method to save updates/new things to the list. So now I can call Save() instead of _taskStorage.SaveFile(_tasks) every time I need to save changes.
- * Made a helper method named GetTasksFromArgs(...) that I can use in update, delete and mark commands so I don't get duplicated code.
- * Wanted to make Program.cs smaller(less code), so I moved the switch from Program.cs to CommandHandler class.
-*/
