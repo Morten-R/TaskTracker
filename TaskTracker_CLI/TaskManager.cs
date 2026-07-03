@@ -8,6 +8,7 @@ namespace TaskTracker_CLI
 {
     public class TaskManager
     {
+        private readonly List<ToDoItem> _tasks = new();
         public ToDoItem? FindTaskById(List<ToDoItem> tasks, int id)
         {
             for (int i = 0; i < tasks.Count; i++)
@@ -53,11 +54,6 @@ namespace TaskTracker_CLI
         {
             markTask.Status = userChoice;
             markTask.UpdatedAt = DateTime.Now; 
-        }
-
-        public IEnumerable<ToDoItem> ShowAllTasks(List<ToDoItem> toDoList)
-        {
-            return toDoList;
         }
     }
 }

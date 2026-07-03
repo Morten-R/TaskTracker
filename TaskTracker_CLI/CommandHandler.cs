@@ -26,7 +26,7 @@ namespace TaskTracker_CLI
             }
 
             foreach (var task in _tasks)
-                Console.WriteLine($"{task.Id}: {task.Description}\t {task.Status}");
+                Console.WriteLine($"ID: {task.Id}\t Name: {task.Description}\t\t Status: {task.Status}\t\t Created: {task.CreatedAt}\t Last updated: {task.UpdatedAt}");
         }
 
         public void AddCommand(string[] args)
@@ -149,6 +149,36 @@ namespace TaskTracker_CLI
             return _taskManager.FindTaskById(_tasks, id);
         }
 
+        public void ListCommand(string[] args)
+        {
+            if (args.Length == 1)
+            {
+                GetList();
+                return;
+            }
+
+            if (Enum.TryParse<TaskStatus>(args[1], true, out var status))
+            {
+                var tasks = _taskManager.FilterByStatus(_tasks, status);
+
+                if (!tasks.Any())
+                {
+                    Console.WriteLine($"No {status} tasks found.");
+                    return;
+                }
+
+                foreach (var task in tasks)
+                {
+                    Console.WriteLine($"ID: {task.Id}\t Name: {task.Description}\t\t Status: {task.Status}\t\t Created: {task.CreatedAt}\t Last updated: {task.UpdatedAt}");
+                }
+            }
+
+            else
+            {
+                Console.WriteLine("Unknown status.");
+            }
+        }
+
         public void Execute(string[] args)
         {
             if (args.Length == 0)
@@ -160,7 +190,7 @@ namespace TaskTracker_CLI
             switch (args[0].ToLower())
             {
                 case "list":
-                    GetList();
+                    ListCommand(args);
                     break;
 
                 case "add":
@@ -181,6 +211,10 @@ namespace TaskTracker_CLI
 
                 case "help":
                     Console.WriteLine("If you're stuck and don't know how to write any commands. Just enter 'dotnet run' followed by one of the following commands.\n");
+                    Console.WriteLine("To get the full list of tasks: list");
+                    Console.WriteLine("To get only the tasks that's done: list done");
+                    Console.WriteLine("To get only the tasks that's todo: list todo");
+                    Console.WriteLine("To get only the tasks that's inProgress: list inprogress");
                     Console.WriteLine("For adding a task: add <description>");
                     Console.WriteLine("To update a task: update <id> <description>");
                     Console.WriteLine("To delete a task: delete <id>");
