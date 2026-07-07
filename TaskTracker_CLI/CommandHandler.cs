@@ -183,7 +183,7 @@ namespace TaskTracker_CLI
         {
             if (args.Length == 0)
             {
-                Console.WriteLine("Please provide a command.");
+                Console.WriteLine("Please provide a command. If you need help, type 'dotnet run help'.");
                 return;
             }
 
